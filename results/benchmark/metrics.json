@@ -1,0 +1,97 @@
+{
+  "synthetic": false,
+  "source_sha256": "6e3562fb761ddcb834c0f3d75567dcfb8e6e1ffea760ba96228352d928509dc4",
+  "source_file": "RIVER_TRAIN_DATASET_A1.xlsx",
+  "scope": "Recorded statistical-model and naive-baseline benchmark. Re-run the expanded candidate set, including recursive XGBoost, with an authorized local A1 workbook before final review.",
+  "protocol": "Fixed-origin 365-day test; model selected by separate validation-year MAE; final fit uses train plus validation.",
+  "weather_mode": "climatology",
+  "partitions": {
+    "train": {
+      "days": 5519,
+      "start": "2000-06-25",
+      "end": "2015-08-04",
+      "target_zero_values": 171
+    },
+    "validation": {
+      "days": 365,
+      "start": "2015-08-05",
+      "end": "2016-08-03",
+      "target_zero_values": 4
+    },
+    "test": {
+      "days": 365,
+      "start": "2016-08-04",
+      "end": "2017-08-03",
+      "target_zero_values": 2
+    }
+  },
+  "selected_model": "sarimax_weather",
+  "selection_metric": "validation MAE",
+  "model_settings": {
+    "order": [
+      1,
+      0,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "annual_fourier_harmonics": 2,
+    "annual_period_days": 365.25,
+    "maxiter": 200
+  },
+  "validation_metrics": {
+    "persistence": {
+      "mae": 0.42245231572080855,
+      "rmse": 0.6673990661561054
+    },
+    "seasonal_naive_7": {
+      "mae": 0.43409158512720186,
+      "rmse": 0.6762996422404002
+    },
+    "seasonal_naive_365": {
+      "mae": 0.44237462114113135,
+      "rmse": 0.6902933956758196
+    },
+    "arma_fourier": {
+      "mae": 0.32903054216103955,
+      "rmse": 0.4937931754497248
+    },
+    "sarimax_weather": {
+      "mae": 0.32887883536468965,
+      "rmse": 0.4936970591558603
+    }
+  },
+  "test_metrics": {
+    "persistence": {
+      "mae": 0.3418621004566211,
+      "rmse": 0.6133875306111827
+    },
+    "seasonal_naive_7": {
+      "mae": 0.3584146118721463,
+      "rmse": 0.6309255186197993
+    },
+    "seasonal_naive_365": {
+      "mae": 0.4521427266797131,
+      "rmse": 0.7040312275039935
+    },
+    "arma_fourier": {
+      "mae": 0.3343253840626928,
+      "rmse": 0.49612145493188814
+    },
+    "sarimax_weather": {
+      "mae": 0.3342783207085727,
+      "rmse": 0.4960966022038173
+    }
+  },
+  "selected_model_test_rmse_reduction_vs_persistence_percent": 19.121831232939492,
+  "limitations": [
+    "Unknown hydrometry units and upstream preparation.",
+    "177 zero target values retained; MAPE is not used.",
+    "Single historical split; no flood-warning validation.",
+    "Weather SARIMAX and Fourier ARMA have nearly identical errors; no material weather-benefit claim is made."
+  ]
+}

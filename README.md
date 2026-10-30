@@ -1,6 +1,6 @@
 # Arno River Level Forecasting
 
-An academic time-series project evaluating daily hydrometry forecasts with weather covariates. The workflow compares persistence, 7-day and 365-day seasonal naive forecasts with an ARMA model using annual Fourier terms and a weather-augmented SARIMAX model.
+An academic time-series project evaluating daily hydrometry forecasts with weather covariates. The workflow compares persistence, 7-day and 365-day seasonal naive forecasts with an ARMA model using annual Fourier terms and a weather-augmented SARIMAX model. A recursive XGBoost candidate uses seven lags and calendar features under the same forecast protocol.
 
 [CI checks](https://github.com/Parisa6Izadyar/BigData2/actions/workflows/tests.yml) · [Methods](docs/methodology.md) · [Validation record](docs/validation.md)
 
@@ -15,7 +15,25 @@ The analysis expects `data/RIVER_TRAIN_DATASET_A1.xlsx`, with these columns:
 | `Mean_Temp` | Prepared temperature covariate |
 | `Mean_Rainfall` | Prepared rainfall covariate |
 
-The original workbook is not included in the repository or its history. The dataset's source, units and preparation steps need to accompany the workbook before a real-data benchmark can be verified. [Input notes](data/README.md) describe the accepted format. Existing images alone do not establish reproducible model performance.
+The supplied A1 workbook contains **6,249 daily observations from 25 June 2000 to 3 August 2017**, with no missing values or duplicate dates. A2 and A3 contain the same 1,283-row subset of A1; they are not additional independent observations. [Source inventory](data/source_inventory.json) records file hashes and coverage.
+
+The workbook is not distributed here. Use an authorized local copy. Its provider, hydrometry units, upstream preparation and redistribution terms have not been supplied. The 177 zero target values are retained; no missing-value interpretation is assumed. [Input notes](data/README.md) describe the accepted format.
+
+## Recorded A1 benchmark
+
+The following statistical-model comparison uses 5,519 training days, a separate 365-day validation interval and a 365-day test ending on 3 August 2017. Validation MAE selects SARIMAX before the test is scored.
+
+| Model | Validation MAE | Test MAE | Test RMSE |
+| --- | ---: | ---: | ---: |
+| Persistence | 0.4225 | 0.3419 | 0.6134 |
+| Seasonal naive 7 days | 0.4341 | 0.3584 | 0.6309 |
+| Seasonal naive 365 days | 0.4424 | 0.4521 | 0.7040 |
+| ARMA with annual Fourier terms | 0.3290 | 0.3343 | 0.4961 |
+| Weather SARIMAX | **0.3289** | **0.3343** | **0.4961** |
+
+The selected model's test RMSE is **19.1% lower than persistence** (0.4961 versus 0.6134). The two statistical models have nearly identical errors, so this does not establish a material benefit from weather covariates. These errors use the source hydrometry units; they are not percentage accuracy. See [full-precision aggregate results](results/benchmark/metrics.json).
+
+The current workflow also includes recursive XGBoost. Run the expanded comparison with the authorized A1 workbook before final review; its new outputs go to `results/reproduced/`. This benchmark describes a single historical split of a prepared input file. Unknown upstream preprocessing limits what can be concluded about its original preparation.
 
 ## Run in Codespaces
 
@@ -49,7 +67,7 @@ Real-data outputs go to `results/reproduced/`. The workbook, generated outputs a
 
 The default protocol reserves the final 365 days for testing and the preceding 365 days for validation. At least 365 earlier training days are required. All candidate settings are fixed before evaluation; validation MAE selects the model, including the naive baselines. Candidates are then refitted on all pre-test observations and evaluated once at the held-out forecast origin.
 
-Each prediction spans the full horizon without receiving observed river levels from within that horizon. MAE and RMSE retain the hydrometry column's source units; no percentage accuracy is reported. Nonconverged statistical fits are reported rather than hidden.
+Each prediction spans the full horizon without receiving observed river levels from within that horizon. MAE and RMSE retain the hydrometry column's source units; no percentage accuracy is reported. MAPE is omitted because the target contains zeros. Nonconverged statistical fits are reported rather than hidden.
 
 Annual Fourier terms use a 365.25-day period with two harmonics. The earlier notebook used a seasonal period of 52 on daily data, which represents 52 days. The current formulation represents annual seasonality without fitting a large 365-state seasonal component.
 
@@ -97,4 +115,4 @@ On Windows, activate with `.venv\Scripts\activate`; Windows is not covered by CI
 - `docs/`: methods, validation and historical figures.
 - `scripts/execute_notebook.py`: notebook execution with the selected Python interpreter.
 
-Historical figures are preserved under [docs/legacy_figures](docs/legacy_figures/README.md). LSTM and XGBoost training code is absent from the original repository; those images are not used as evidence for the current model comparison.
+Historical figures are preserved under [docs/legacy_figures](docs/legacy_figures/README.md). A subsequently supplied notebook contains XGBoost training code, but used the test interval for early stopping and true held-out target lags. The current implementation uses fixed training settings and feeds its own predictions into subsequent target lags. LSTM imports alone do not constitute an implemented or evaluated LSTM model; no new LSTM result is claimed.

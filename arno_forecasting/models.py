@@ -7,8 +7,9 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 from .data import TARGET
 from .features import WeatherFeatures, annual_features
+from .boosting import recursive_xgboost
 
-CANDIDATES = ("persistence", "seasonal_naive_7", "seasonal_naive_365", "arma_fourier", "sarimax_weather")
+CANDIDATES = ("persistence", "seasonal_naive_7", "seasonal_naive_365", "arma_fourier", "sarimax_weather", "xgboost_recursive")
 
 
 @dataclass
@@ -28,6 +29,8 @@ def forecast_candidate(name, train, future, weather_mode="climatology", maxiter=
     if weather_mode not in ("climatology", "observed"):
         raise ValueError("Weather mode must be climatology or observed")
     index = future.index
+    if name == "xgboost_recursive":
+        return Forecast(recursive_xgboost(train, future, weather_mode), [])
     if name == "persistence":
         return Forecast(baseline(train[TARGET], index, 1), [])
     if name.startswith("seasonal_naive_"):

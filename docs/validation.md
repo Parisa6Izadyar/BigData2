@@ -1,17 +1,17 @@
 # Validation record
 
-## Local checks
+## Automated checks
 
-On 30 October 2026, all 20 automated tests passed with Python 3.12.14 and the pinned requirements. The synthetic command-line run fitted all five predefined candidates, evaluated a 90-day validation interval and a separate 90-day test horizon, and saved predictions, split dates, metrics and a plot. Synthetic scores are not Arno River performance measurements.
+On 30 October 2026, the current suite ran with 23 tests passed and one source-workbook check skipped when A1 was unavailable. There are 24 tests in total. The workbook-specific test verifies the supplied A1 SHA-256, coverage, zeros and chronological partitions when that file is present. A skipped source check is not a successful real-data execution.
 
-The suite checks chronological partition boundaries, daily-date handling, missing/duplicate target dates, train-only weather statistics, leap-day fallback, multistep baselines, forecast invariance to held-out data, conditional observed-weather behavior, convergence failures, validation-based model selection, metric alignment and command-line outputs.
+The suite checks daily dates, duplicate and missing targets, finite values, chronological boundaries, training-only weather statistics, leap-day fallback, fixed-origin baselines, forecast invariance to held-out data, conditional weather behavior, convergence failures, validation-based selection, metric alignment and CLI outputs. XGBoost checks cover training rows, absence of test-label early stopping and recursive use of predicted target values.
 
 ## Notebook and CI
 
-The source notebook calls the same implementation as the CLI. CI installs the pinned packages, runs the tests and executes all nine notebook cells on the synthetic fixture, using a workspace-local kernel specification. It requires no external dataset or service credentials.
+CI installs the pinned requirements, runs the tests and executes all nine notebook cells on deterministic synthetic data. A real-workbook notebook step runs only when the A1 workbook is present. Synthetic scores check software behavior and are not Arno performance measurements. A user-run Codespaces verification of the expanded six-candidate comparison remains pending.
 
-A local Jupyter kernel launch in the restricted execution environment was blocked by its socket permissions. Notebook execution therefore needs to be verified by the hosted CI run; the CLI and numerical tests ran locally. A user-run hosted Codespaces session has not yet been verified.
+## Recorded A1 evaluation
 
-## Real-data evaluation
+The supplied workbook has 6,249 complete daily rows from 25 June 2000 to 3 August 2017. The recorded statistical-model comparison reserves 5,519 training days, 365 validation days and 365 test days. Validation MAE selects weather SARIMAX, whose test RMSE is 0.4960966022 versus persistence at 0.6133875306, a 19.1% reduction. Fourier ARMA is nearly identical at 0.4961214549; a large weather-covariate improvement is not supported.
 
-The original workbook is absent from the repository and its history. No new real-data accuracy or improvement claim is made. The notebook's saved historical outputs and images do not establish a reproducible benchmark. The observation source, units, upstream preprocessing and redistribution terms need to be documented with the input before a measured result can be added.
+Aggregate metrics are stored under `results/benchmark/`. The full workbook, dated predictions and observed-series plots are not distributed. Re-run the expanded workflow with an authorized local A1 copy before final review. Provider, source units, earlier imputation and redistribution terms remain unspecified.

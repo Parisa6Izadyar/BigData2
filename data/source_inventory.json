@@ -1,0 +1,43 @@
+{
+  "primary_file": "RIVER_TRAIN_DATASET_A1.xlsx",
+  "files": [
+    {
+      "name": "RIVER_TRAIN_DATASET_A1.xlsx",
+      "sha256": "6e3562fb761ddcb834c0f3d75567dcfb8e6e1ffea760ba96228352d928509dc4",
+      "rows": 6249,
+      "columns": [
+        "Date",
+        "Mean_Rainfall",
+        "Mean_Temp",
+        "Actual_Hydrometry"
+      ],
+      "start": "2000-06-25",
+      "end": "2017-08-03",
+      "missing_values": 0,
+      "duplicate_dates": 0,
+      "target_zero_values": 177
+    },
+    {
+      "name": "RIVER_TRAIN_DATASET_A2.xlsx",
+      "sha256": "24b340da4348b2423201f01333c8d6791489a042b6ef4f0ddad5db0e7ffb7e40",
+      "rows": 1283,
+      "start": "2004-01-01",
+      "end": "2007-07-06"
+    },
+    {
+      "name": "RIVER_TRAIN_DATASET_A3.xlsx",
+      "sha256": "abd25bb215769240ac304f4453b6b39e39ed2e80652d79584e38238e29c0246a",
+      "rows": 1283,
+      "start": "2004-01-01",
+      "end": "2007-07-06"
+    }
+  ],
+  "relationship": "A2 and A3 contain identical observation values and equal the corresponding A1 subset. They are not independent data and must not be concatenated with A1.",
+  "provider": null,
+  "hydrometry_units": null,
+  "upstream_preparation": null,
+  "redistribution_terms": null,
+  "preparation_observations": [
+    "The first 30 A1 temperature and rainfall values are constant; their provenance is unknown. Zero target values are retained without inferring that they mean missing data."
+  ]
+}
