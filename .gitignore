@@ -1,0 +1,14 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+pytest-of-root/
+.ipynb_checkpoints/
+results/reproduced/
+results/demo/
+results/notebook_check/
+data/*.xlsx
+data/*.csv
+.env
+.DS_Store
