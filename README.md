@@ -21,7 +21,7 @@ The workbook is not distributed here. Use an authorized local copy. Its provider
 
 ## Recorded A1 benchmark
 
-The following statistical-model comparison uses 5,519 training days, a separate 365-day validation interval and a 365-day test ending on 3 August 2017. Validation MAE selects SARIMAX before the test is scored.
+The six-candidate comparison uses 5,519 training days, a separate 365-day validation interval and a 365-day test ending on 3 August 2017. Validation MAE selects SARIMAX before the test is scored.
 
 | Model | Validation MAE | Test MAE | Test RMSE |
 | --- | ---: | ---: | ---: |
@@ -30,10 +30,11 @@ The following statistical-model comparison uses 5,519 training days, a separate 
 | Seasonal naive 365 days | 0.4424 | 0.4521 | 0.7040 |
 | ARMA with annual Fourier terms | 0.3290 | 0.3343 | 0.4961 |
 | Weather SARIMAX | **0.3289** | **0.3343** | **0.4961** |
+| Recursive XGBoost | 0.3414 | 0.3445 | 0.5078 |
 
-The selected model's test RMSE is **19.1% lower than persistence** (0.4961 versus 0.6134). The two statistical models have nearly identical errors, so this does not establish a material benefit from weather covariates. These errors use the source hydrometry units; they are not percentage accuracy. See [full-precision aggregate results](results/benchmark/metrics.json).
+The selected model's test RMSE is **19.1% lower than persistence** (0.4961 versus 0.6134). The two statistical models have nearly identical errors, so this does not establish a material benefit from weather covariates. These errors use the source hydrometry units; they are not percentage accuracy. See [full-precision validation MAE and test metrics](results/benchmark/metrics.json).
 
-The current workflow also includes recursive XGBoost. Run the expanded comparison with the authorized A1 workbook before final review; its new outputs go to `results/reproduced/`. This benchmark describes a single historical split of a prepared input file. Unknown upstream preprocessing limits what can be concluded about its original preparation.
+The complete comparison was run in GitHub Codespaces with the local A1 workbook. SARIMAX had lower validation MAE and lower test MAE/RMSE than recursive XGBoost on this split. New run outputs go to `results/reproduced/`. This is a single historical split of a prepared input file; upstream preprocessing remains unspecified.
 
 ## Run in Codespaces
 
