@@ -1,0 +1,8 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {"label": "Run tests", "type": "shell", "command": "python -m pytest -q", "group": "test", "problemMatcher": []},
+    {"label": "Run synthetic demo", "type": "shell", "command": "python -m arno_forecasting demo", "problemMatcher": []},
+    {"label": "Run original workbook", "type": "shell", "command": "python -m arno_forecasting run", "problemMatcher": []}
+  ]
+}

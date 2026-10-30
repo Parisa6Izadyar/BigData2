@@ -1,6 +1,1 @@
-numpy
-pandas
-matplotlib
-statsmodels
-scikit-learn
-jupyter
+-r requirements.txt
