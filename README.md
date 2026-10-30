@@ -1,6 +1,6 @@
 # Arno River Level Forecasting
 
-An academic time-series project evaluating daily hydrometry forecasts with weather covariates. The workflow compares persistence, 7-day and 365-day seasonal naive forecasts with an ARMA model using annual Fourier terms and a weather-augmented SARIMAX model. A recursive XGBoost candidate uses seven lags and calendar features under the same forecast protocol.
+An academic team project evaluating daily hydrometry forecasts with weather covariates. The workflow compares persistence, 7-day and 365-day seasonal naive forecasts with an ARMA model using annual Fourier terms and a weather-augmented SARIMAX model. A recursive XGBoost candidate uses seven lags and calendar features under the same forecast protocol.
 
 [CI checks](https://github.com/Parisa6Izadyar/BigData2/actions/workflows/tests.yml) · [Methods](docs/methodology.md) · [Validation record](docs/validation.md)
 
@@ -115,4 +115,4 @@ On Windows, activate with `.venv\Scripts\activate`; Windows is not covered by CI
 - `docs/`: methods, validation and historical figures.
 - `scripts/execute_notebook.py`: notebook execution with the selected Python interpreter.
 
-Historical figures are preserved under [docs/legacy_figures](docs/legacy_figures/README.md). A subsequently supplied notebook contains XGBoost training code, but used the test interval for early stopping and true held-out target lags. The current implementation uses fixed training settings and feeds its own predictions into subsequent target lags. LSTM imports alone do not constitute an implemented or evaluated LSTM model; no new LSTM result is claimed.
+Historical figures are preserved under [docs/legacy_figures](docs/legacy_figures/README.md). The available notebooks include SARIMAX and XGBoost workflows. The LSTM implementation and training configuration were not included with the archived materials, so LSTM is outside the reproducible comparison.
